@@ -5,6 +5,7 @@ exports.handler = async (event, context) => {
   try {
     console.log(event.body)
     const body = JSON.parse(event.body);
+    console.log(body)
     const username = body.sender.login;
     const avatarUrl = body.sender.avatar_url;
     const repoName = body.repository.name;
