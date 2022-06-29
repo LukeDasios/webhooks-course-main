@@ -1,18 +1,13 @@
-require("dotenv").config();
-
-const ACCOUNT_SID = process.env.ACCOUNT_SID;
-const AUTH_TOKEN = process.env.AUTH_TOKEN;
-const PHONE_NUMBER = process.env.PHONE_NUMBER;
-const client = require("twilio")(ACCOUNT_SID, AUTH_TOKEN);
-
 exports.handler = (context, event, callback) => {
-  client.messages
-    .create({
-      body: `Transcription: ${event.TranscriptionText}`,
-      from: PHONE_NUMBER,
-      to: "+15558675310"
-    })
-    .then((message) => console.log(message.sid));
+  const client = context.getTwilioClient()
 
-  callback(null, "console check");
+  client.messages.create({
+    to: "+16479385063",
+    from: context.PHONE_NUMBER,
+    body: `New idea: ${event.TranscriptionText}`
+  }).then((message) => {
+    callback(null, `Sent message ${message.sid}`)
+  }).catch((error) => {
+    callback(error)
+  })
 };
